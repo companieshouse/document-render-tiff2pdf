@@ -2,7 +2,6 @@ package com.companieshouse;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Base64;
 import java.util.Random;
@@ -26,17 +25,13 @@ public class TiffToPDF extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String xReqID = request.getHeader("X-Request-ID");
-		if (xReqID.length() == 0) {
+		if (xReqID == null) {
 			byte[] rb = new byte[6];
 			new Random().nextBytes(rb);
 			xReqID = encode(rb);			
 		}
-		InputStream is = request.getInputStream();
-		byte[] tiffBytes = new byte[is.available()];
-		is.read(tiffBytes);
-		is.close();
 		
-		byte[] pdfBytes = tiffToPDF(tiffBytes);
+		byte[] pdfBytes = tiffToPDF(request);
 		
 		OutputStream output = response.getOutputStream();
 		output.write(pdfBytes);
@@ -49,19 +44,15 @@ public class TiffToPDF extends HttpServlet {
 		return new String(encoded);		
 	}
 	
-	private static byte[] tiffToPDF(byte[] tiffBytes) {
-		RandomAccessFileOrArray myTiffFile=new RandomAccessFileOrArray(tiffBytes);
-		
-		int numberOfPages=TiffImage.getNumberOfPages(myTiffFile);
-
-	    System.out.println("Number of Images in Tiff File: " + numberOfPages);
-
-	    Document TifftoPDF=new Document();
-	    
-	    ByteArrayOutputStream PDFOutput = new ByteArrayOutputStream();
-
-	    try {
-			PdfWriter.getInstance(TifftoPDF, PDFOutput);
+	private static byte[] tiffToPDF(HttpServletRequest request) {
+		RandomAccessFileOrArray myTiffFile;
+		try {		
+			 myTiffFile = new RandomAccessFileOrArray(request.getInputStream());
+			 int numberOfPages=TiffImage.getNumberOfPages(myTiffFile);
+			 System.out.println("Number of Images in Tiff File: " + numberOfPages);
+			 Document TifftoPDF=new Document();
+			 ByteArrayOutputStream PDFOutput = new ByteArrayOutputStream();
+			 PdfWriter.getInstance(TifftoPDF, PDFOutput);
 			
 			 TifftoPDF.open();
 			 
@@ -70,18 +61,30 @@ public class TiffToPDF extends HttpServlet {
    		         tempImage.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight());
 			 	 tempImage.setAbsolutePosition(0, 0);
      	         TifftoPDF.add(tempImage);
-			     TifftoPDF.newPage();
-   		    }
+			     TifftoPDF.newPage(); 
+   		     }
+			 
+			 if (request.getHeader("PDF-Subject") != null)
+				 TifftoPDF.addSubject(request.getHeader("PDF-Subject"));
+			 if (request.getHeader("PDF-Author") != null)
+				 TifftoPDF.addAuthor(request.getHeader("PDF-Author"));
+			 if (request.getHeader("PDF-Creator") != null)
+				 TifftoPDF.addCreator(request.getHeader("PDF-Creator"));
+			 if (request.getHeader("PDF-Title") != null)
+				 TifftoPDF.addTitle(request.getHeader("PDF-Title"));
 
-			    TifftoPDF.close();
+			 TifftoPDF.close();
 
-			    System.out.println("Tiff to PDF Conversion in Java Completed" );
+			 System.out.println("Tiff to PDF Conversion in Java Completed" );
 			    
-			    return PDFOutput.toByteArray();
+			 return PDFOutput.toByteArray();
 			    
 		} catch (DocumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	    
 	    return null;
