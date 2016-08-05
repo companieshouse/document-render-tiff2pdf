@@ -12,7 +12,7 @@ public class App
     	log.trace("Starting service on port 9090.");
         Server server = new Server(9090);
         ServletHandler handler = new ServletHandler();
-        handler.addServletWithMapping(TiffToPDF.class, "/convert");
+        handler.addServletWithMapping(Handler.class, "/convert");
         server.setHandler(handler);
         server.start();
         server.join();

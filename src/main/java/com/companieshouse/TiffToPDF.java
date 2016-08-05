@@ -1,15 +1,8 @@
 package com.companieshouse;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Base64;
-import java.util.Random;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
@@ -25,35 +18,19 @@ import com.lowagie.text.pdf.codec.TiffImage;
 public class TiffToPDF extends HttpServlet {
 	
 	final static Logger log = Logger.getLogger(TiffToPDF.class);
+	private static RandomAccessFileOrArray myTiffFile;
 
-	@Override
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String xReqID = request.getHeader("X-Request-ID");
-		if (xReqID == null) {
-			byte[] rb = new byte[6];
-			new Random().nextBytes(rb);
-			xReqID = encode(rb);
-		}
-		log.info("X Request ID: " + xReqID);
-
-		byte[] pdfBytes = tiffToPDF(request);
-
-		OutputStream output = response.getOutputStream();
-		output.write(pdfBytes);
-		output.close();
+	public static RandomAccessFileOrArray getMyTiffFile() {
+		return myTiffFile;
 	}
 
-	private static String encode(byte[] bytesToEncode) {
-		Base64.Encoder encoder = Base64.getUrlEncoder();
-		byte[] encoded = encoder.encode(bytesToEncode);
-		return new String(encoded);
+	public void setMyTiffFile(RandomAccessFileOrArray myTiffFile) {
+		TiffToPDF.myTiffFile = myTiffFile;
 	}
 
-	private static byte[] tiffToPDF(HttpServletRequest request) {
-		RandomAccessFileOrArray myTiffFile;
+	public byte[] tiffToPDF(HttpServletRequest request) {
+		RandomAccessFileOrArray myTiffFile = TiffToPDF.myTiffFile;
 		try {
-			myTiffFile = new RandomAccessFileOrArray(request.getInputStream());
 			int numberOfPages = TiffImage.getNumberOfPages(myTiffFile);
 			log.info("Number of Images in Tiff File: "
 					+ numberOfPages);
@@ -90,9 +67,6 @@ public class TiffToPDF extends HttpServlet {
 		} catch (DocumentException e) {
 			log.error(e);
 			e.printStackTrace();
-		} catch (IOException e1) {
-			log.error(e1);
-			e1.printStackTrace();
 		}
 
 		return null;
