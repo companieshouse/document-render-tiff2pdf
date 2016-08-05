@@ -9,8 +9,13 @@ public class App
 	final static Logger log = Logger.getLogger(App.class);
 	
     public static void main( String[] args ) throws Exception {
-    	log.trace("Starting service on port 9090.");
-        Server server = new Server(9090);
+    	int bind = 9090;
+    	String newBind = System.getenv("TIFF2PDF_SERVICE_LISTEN");
+    	if (newBind != null) {
+    		bind = Integer.parseInt(newBind);
+    	}
+    	log.info("Starting service on port " + bind);
+        Server server = new Server(bind);
         ServletHandler handler = new ServletHandler();
         handler.addServletWithMapping(Handler.class, "/convert");
         server.setHandler(handler);

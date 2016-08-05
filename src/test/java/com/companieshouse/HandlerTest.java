@@ -3,7 +3,6 @@ package com.companieshouse;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Random;
 
 import javax.servlet.ServletException;

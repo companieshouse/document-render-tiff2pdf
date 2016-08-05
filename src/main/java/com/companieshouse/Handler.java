@@ -39,6 +39,10 @@ public class Handler extends HttpServlet {
 			xReqID = encode(rb);
 		}
 		log.info("X Request ID: " + xReqID);
+		
+		if (converter == null) {
+			setConverter(new TiffToPDF());
+		}
 
 		converter.setMyTiffFile(new RandomAccessFileOrArray(request.getInputStream()));
 		byte[] pdfBytes = converter.tiffToPDF(request);
