@@ -32,6 +32,20 @@
             </archive>
             </configuration>
         </plugin>
+        <plugin>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-maven-plugin</artifactId>
+            <version>9.2.11.v20150529</version>
+            <configuration>
+            <scanIntervalSeconds>10</scanIntervalSeconds>
+            <webApp>
+            <contextPath>/convert</contextPath>
+            </webApp>
+            <httpConnector>
+                 <port>9090</port>
+            </httpConnector>
+            </configuration>
+  </plugin>
     </plugins>
     <pluginManagement>
     	<plugins>
@@ -86,7 +100,7 @@
     <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <version>9.4.0.M0</version>
+        <version>9.2.11.v20150529</version>
     </dependency>
     <dependency>
         <groupId>org.apache.maven.plugins</groupId>

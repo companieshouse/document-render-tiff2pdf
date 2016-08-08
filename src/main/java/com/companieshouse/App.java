@@ -1,25 +1,33 @@
 package com.companieshouse;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jetty.server.HttpConnectionFactory;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
 public class App 
 {
 	final static Logger log = Logger.getLogger(App.class);
 	
     public static void main( String[] args ) throws Exception {
-    	int bind = 9090;
+    	int bind = 5000;
     	String newBind = System.getenv("TIFF2PDF_SERVICE_LISTEN");
     	if (newBind != null) {
     		bind = Integer.parseInt(newBind);
     	}
     	log.info("Starting service on port " + bind);
-        Server server = new Server(bind);
+    	QueuedThreadPool threadPool = new QueuedThreadPool(1000, 100);
+        Server server = new Server(threadPool);
+        ServerConnector connector = new ServerConnector(server, new HttpConnectionFactory());
+        connector.setPort(bind);
+        
+        server.addConnector(connector);
         
         ServletHandler handler = new ServletHandler();
         handler.addServletWithMapping(Handler.class, "/convert");
-        handler.addServletWithMapping(Healthcheck.class, "/healtcheck");
+        handler.addServletWithMapping(Healthcheck.class, "/healthcheck");
         server.setHandler(handler);
         server.start();
         server.join();

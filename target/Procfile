@@ -1,0 +1,1 @@
+ec2-user: sudo java -jar Java-Tiff2PDF-1.0.0.jar

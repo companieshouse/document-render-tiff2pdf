@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="2" failures="0" name="com.companieshouse.HandlerTest" time="0.172" errors="0" skipped="0">
+<testsuite tests="2" failures="0" name="com.companieshouse.HandlerTest" time="0.287" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/jre/lib"/>
@@ -23,11 +23,13 @@
     <property name="java.endorsed.dirs" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/jre/lib/endorsed"/>
     <property name="os.arch" value="x86_64"/>
     <property name="java.io.tmpdir" value="/var/folders/cv/602qh0yj46d_xz27wfm04lkw0000gp/T/"/>
+    <property name="proxyPort" value="8080"/>
     <property name="line.separator" value="
 "/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="os.name" value="Mac OS X"/>
     <property name="classworlds.conf" value="/Users/mrout/apache-maven-3.3.3/bin/m2.conf"/>
+    <property name="proxySet" value="true"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/usr/lib/oracle/11.2/client64:/Users/mrout/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -42,10 +44,11 @@
     <property name="file.encoding" value="UTF-8"/>
     <property name="user.name" value="mrout"/>
     <property name="java.class.path" value="/Users/mrout/apache-maven-3.3.3/boot/plexus-classworlds-2.5.2.jar"/>
+    <property name="proxyHost" value="wsproxy.internal.ch"/>
     <property name="java.vm.specification.version" value="1.8"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="java.home" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_101.jdk/Contents/Home/jre"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher install"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher install -DproxySet=true -DproxyHost=wsproxy.internal.ch -DproxyPort=8080"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
     <property name="user.language" value="en"/>
     <property name="awt.toolkit" value="sun.lwawt.macosx.LWCToolkit"/>
@@ -63,6 +66,6 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.companieshouse.HandlerTest" name="testMethodEncodeReturnsBase64URLEncodedString" time="0.001"/>
-  <testcase classname="com.companieshouse.HandlerTest" name="testHandler" time="0.171"/>
+  <testcase classname="com.companieshouse.HandlerTest" name="testMethodEncodeReturnsBase64URLEncodedString" time="0.002"/>
+  <testcase classname="com.companieshouse.HandlerTest" name="testHandler" time="0.285"/>
 </testsuite>
