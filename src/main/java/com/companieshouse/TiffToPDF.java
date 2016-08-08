@@ -20,10 +20,6 @@ public class TiffToPDF extends HttpServlet {
 	final static Logger log = Logger.getLogger(TiffToPDF.class);
 	private static RandomAccessFileOrArray myTiffFile;
 
-	public static RandomAccessFileOrArray getMyTiffFile() {
-		return myTiffFile;
-	}
-
 	public void setMyTiffFile(RandomAccessFileOrArray myTiffFile) {
 		TiffToPDF.myTiffFile = myTiffFile;
 	}
@@ -70,6 +66,11 @@ public class TiffToPDF extends HttpServlet {
 		}
 
 		return null;
+	}
+	
+	public int getPages() {
+		RandomAccessFileOrArray myTiffFile = TiffToPDF.myTiffFile;
+		return TiffImage.getNumberOfPages(myTiffFile);
 	}
 
 }

@@ -8,7 +8,7 @@
   <name>java-tiff2pdf</name>
   <url>http://maven.apache.org</url>
   <build>
-    <finalName>JavaServerFaces</finalName>
+    <finalName>Java-Tiff2PDF</finalName>
     <plugins>
        <plugin>
            <groupId>org.apache.maven.plugins</groupId>
@@ -19,6 +19,19 @@
                <target>1.8</target>
            </configuration>
        </plugin>
+       <plugin>
+            <!-- Build an executable JAR -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>2.4</version>
+            <configuration>
+            <archive>
+                <manifest>
+                    <mainClass>com.companieshouse.App</mainClass>
+                </manifest>
+            </archive>
+            </configuration>
+        </plugin>
     </plugins>
     <pluginManagement>
     	<plugins>

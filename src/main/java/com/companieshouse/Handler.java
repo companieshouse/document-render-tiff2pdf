@@ -46,7 +46,9 @@ public class Handler extends HttpServlet {
 
 		converter.setMyTiffFile(new RandomAccessFileOrArray(request.getInputStream()));
 		byte[] pdfBytes = converter.tiffToPDF(request);
+		int pages = converter.getPages();
 
+		response.addHeader("PDF-Pages", String.valueOf(pages));
 		OutputStream output = response.getOutputStream();
 		output.write(pdfBytes);
 		output.close();

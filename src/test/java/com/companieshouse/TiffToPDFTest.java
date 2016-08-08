@@ -14,7 +14,7 @@ import com.lowagie.text.pdf.RandomAccessFileOrArray;
 public class TiffToPDFTest extends Mockito {
 	
 	@Test 
-	public void testSuccessfulConversionOfTiff() throws IOException {
+	public void testSuccessfulConversionOfTiffToPDF() throws IOException {
 		TiffToPDF testT2P = new TiffToPDF();
 		ClassLoader classLoader = getClass().getClassLoader();
 		RandomAccessFileOrArray myTiffFile = new RandomAccessFileOrArray(classLoader.getResourceAsStream("test.tif"));
@@ -26,5 +26,15 @@ public class TiffToPDFTest extends Mockito {
 		when(mockReq.getHeader("PDF-Title")).thenReturn("Eric ate a banana");
 		byte[] pdfBytes = testT2P.tiffToPDF(mockReq);
 		assertNotNull(pdfBytes);
+	}
+	
+	@Test 
+	public void testGetNumberOfPagesReturnsCorrectValue() throws IOException {
+		TiffToPDF testT2P = new TiffToPDF();
+		ClassLoader classLoader = getClass().getClassLoader();
+		RandomAccessFileOrArray myTiffFile = new RandomAccessFileOrArray(classLoader.getResourceAsStream("test.tif"));
+		testT2P.setMyTiffFile(myTiffFile);
+		int nop = testT2P.getPages();
+		assertEquals(nop, 3);
 	}
 }
