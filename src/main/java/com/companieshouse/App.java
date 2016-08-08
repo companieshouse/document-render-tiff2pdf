@@ -15,7 +15,7 @@ public class App
     		bind = Integer.parseInt(newBind);
     	}
     	log.info("Starting service on port " + bind);
-        Server server = new Server(9090);
+        Server server = new Server(bind);
         
         ServletHandler handler = new ServletHandler();
         handler.addServletWithMapping(Handler.class, "/convert");
