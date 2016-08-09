@@ -12,8 +12,9 @@ public class App
 	final static Logger log = Logger.getLogger(App.class);
 	
     public static void main( String[] args ) throws Exception {
+    	//Default port is 5000 so service runs on elastic beanstalk
     	int bind = 5000;
-    	String newBind = System.getenv("TIFF2PDF_SERVICE_LISTEN");
+    	String newBind = System.getenv("TIFF2PDF_SERVICE_PORT");
     	if (newBind != null) {
     		bind = Integer.parseInt(newBind);
     	}
@@ -26,7 +27,7 @@ public class App
         server.addConnector(connector);
         
         ServletHandler handler = new ServletHandler();
-        handler.addServletWithMapping(Handler.class, "/convert");
+        handler.addServletWithMapping(DocumentConverter.class, "/convert");
         handler.addServletWithMapping(Healthcheck.class, "/healthcheck");
         server.setHandler(handler);
         server.start();
