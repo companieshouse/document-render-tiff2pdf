@@ -9,16 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.MockitoAnnotations.Mock;
 
 import com.lowagie.text.pdf.RandomAccessFileOrArray;
 
 public class TiffToPDFTest extends Mockito {
 	
-	HttpServletRequest mockReq;
+	@Mock HttpServletRequest mockReq;
 	
 	@Before
 	public void setUp() {
-		mockReq = mock(HttpServletRequest.class);
+		MockitoAnnotations.initMocks(this);
 	}
 	
 	@Test 

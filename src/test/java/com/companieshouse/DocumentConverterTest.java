@@ -12,24 +12,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.MockitoAnnotations.Mock;
 import org.junit.Before;
 import org.junit.Test;
 
 public class DocumentConverterTest extends Mockito {
 	
-	ServletInputStream inputStream;
-	ServletOutputStream outputStream;
-	HttpServletRequest mockReq;
-	HttpServletResponse response;
-	TiffToPDF mockT2P;
+	@Mock ServletInputStream inputStream;
+	@Mock ServletOutputStream outputStream;
+	@Mock HttpServletRequest mockReq;
+	@Mock HttpServletResponse response;
+	@Mock TiffToPDF mockT2P;
 	
 	@Before
 	public void setUp() {
-		inputStream = mock(ServletInputStream.class);
-		outputStream = mock(ServletOutputStream.class);
-		mockReq = mock(HttpServletRequest.class);
-		response = mock(HttpServletResponse.class);
-		mockT2P = mock(TiffToPDF.class);
+		MockitoAnnotations.initMocks(this);
 	}
 	
 	@Test
