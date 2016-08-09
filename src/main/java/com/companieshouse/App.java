@@ -7,8 +7,7 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 
-public class App 
-{
+public class App {
 	final static Logger log = Logger.getLogger(App.class);
 	
     public static void main( String[] args ) throws Exception {
