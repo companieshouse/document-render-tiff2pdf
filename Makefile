@@ -11,18 +11,18 @@ test:
 	mvn test
 
 build:
-	mvn clean install
+	mvn clean install package
 
 clean:
 	mvn clean
 
-dist: deps build
+dist: build
 	-rm -rf ./.dist-build
 	mkdir ./.dist-build
-	cp ./target/$(BIN) ./.dist-build/$(BIN)
+	cp ./target/$(JAR) ./.dist-build/$(JAR)
 	cp ./start.sh ./.dist-build/start.sh
-	cd ./.dist-build; zip $(BIN).zip $(BIN) start.sh
-	mv ./.dist-build/$(BIN).zip $(BIN)-$(VERSION).zip
+	cd ./.dist-build; zip $(JAR).zip $(JAR) start.sh
+	mv ./.dist-build/$(JAR).zip $(JAR)-$(VERSION).zip
 	rm -rf ./.dist-build
 
 .PHONY: all build clean
