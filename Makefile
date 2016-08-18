@@ -1,28 +1,23 @@
-JAR=Java-Tiff2PDF.jar
-VERSION=1.0.0
-TESTS?=./...
-CHS_ENV_HOME?=$(HOME)/.chs_env
-CHS_ENVS=$(CHS_ENV_HOME)/global_env
-SOURCE_ENV=for chs_env in $(CHS_ENVS); do test -f $$chs_env && . $$chs_env; done
-
 all: build
-
-test:
-	mvn test
-
-build:
-	mvn clean install package
 
 clean:
 	mvn clean
 
-dist: build
-	-rm -rf ./.dist-build
-	mkdir ./.dist-build
-	cp ./target/$(JAR) ./.dist-build/$(JAR)
-	cp ./start.sh ./.dist-build/start.sh
-	cd ./.dist-build; zip $(JAR).zip $(JAR) start.sh
-	mv ./.dist-build/$(JAR).zip $(JAR)-$(VERSION).zip
-	rm -rf ./.dist-build
+build:
+	mvn compile
 
-.PHONY: all build clean
+test: test-unit
+
+test-unit: clean
+	mvn test
+
+package:
+	$(eval commit := $(shell git rev-parse --short HEAD))
+	$(eval tag := $(shell git tag -l 'release/*' -l 'hotfix/*' --points-at HEAD))
+	$(eval VERSION := $(shell if [[ -n "$(tag)" ]]; then basename $(tag); else echo $(commit); fi))
+	mvn versions:set -DnewVersion=$(VERSION) -DgenerateBackupPoms=false
+	mvn package -DskipTests
+
+dist: clean package
+
+.PHONY: all clean build test test-unit package dist
