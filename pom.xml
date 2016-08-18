@@ -92,6 +92,7 @@
         <artifactId>junit</artifactId>
         <version>4.12</version>
     </dependency>
+    <!-- If version changes must check license (itext) -->
     <dependency>
         <groupId>com.lowagie</groupId>
         <artifactId>itext</artifactId>
