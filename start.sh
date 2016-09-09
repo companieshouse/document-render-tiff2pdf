@@ -27,4 +27,4 @@ else
 
 fi
 
-java -jar Java-Tiff2PDF.jar 
+java -jar target/Java-Tiff2PDF-jar-with-dependencies.jar 
