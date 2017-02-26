@@ -6,7 +6,7 @@
 
     <groupId>uk.gov.companieshouse</groupId>
     <artifactId>document-renderer-tiff2pdf</artifactId>
-    <version>3103253</version>
+    <version>unversioned</version>
     <packaging>jar</packaging>
     <name>document-renderer-tiff2pdf</name>
 
@@ -17,6 +17,7 @@
         <log4j.version>1.2.17</log4j.version>
         <mockito.version>1.9.5</mockito.version>
         <junit.version>4.12</junit.version>
+        <java.version>1.8</java.version>
         <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
         <maven-assembly-plugin.version>2.4.1</maven-assembly-plugin.version>
     </properties>
@@ -63,8 +64,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
             <plugin>

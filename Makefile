@@ -2,7 +2,6 @@ artifact_name       := document-render-tiff2pdf
 commit              := $(shell git rev-parse --short HEAD)
 tag                 := $(shell git tag -l 'v*-rc*' --points-at HEAD)
 version             := $(shell if [[ -n "$(tag)" ]]; then echo $(tag) | sed 's/^v//'; else echo $(commit); fi)
-artifactory_publish := $(shell if [[ -n "$(tag)" ]]; then echo release; else echo dev; fi)
 
 .PHONY: all
 all: build
@@ -16,7 +15,6 @@ clean:
 
 .PHONY: build
 build:
-	mvn versions:set -DnewVersion=$(version) -DgenerateBackupPoms=false
 	mvn package -DskipTests=true
 	mv ./target/$(artifact_name).jar ./$(artifact_name).jar
 
