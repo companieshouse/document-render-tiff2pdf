@@ -2,7 +2,7 @@
 
 ### Getting Started
 
-To begin the service run `./start.sh ubic`
+To begin the service run `./start.sh`
 
 You can set the `TIFF2PDF_SERVICE_LISTEN` environment variable to change the port
 number the service listens on.
