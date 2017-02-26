@@ -1,28 +1,39 @@
-JAR=Java-Tiff2PDF.jar
-VERSION=1.0.0
-TESTS?=./...
-CHS_ENV_HOME?=$(HOME)/.chs_env
-CHS_ENVS=$(CHS_ENV_HOME)/global_env
-SOURCE_ENV=for chs_env in $(CHS_ENVS); do test -f $$chs_env && . $$chs_env; done
+artifact_name       := document-render-tiff2pdf
+commit              := $(shell git rev-parse --short HEAD)
+tag                 := $(shell git tag -l 'v*-rc*' --points-at HEAD)
+version             := $(shell if [[ -n "$(tag)" ]]; then echo $(tag) | sed 's/^v//'; else echo $(commit); fi)
+artifactory_publish := $(shell if [[ -n "$(tag)" ]]; then echo release; else echo dev; fi)
 
+.PHONY: all
 all: build
 
-test:
-	mvn test
-
-build:
-	mvn clean install package
-
+.PHONY: clean
 clean:
 	mvn clean
+	rm -f ./$(artifact_name).jar
+	rm -f ./$(artifact_name)-*.zip
+	rm -rf ./build-*
 
-dist: build
-	-rm -rf ./.dist-build
-	mkdir ./.dist-build
-	cp ./target/$(JAR) ./.dist-build/$(JAR)
-	cp ./start.sh ./.dist-build/start.sh
-	cd ./.dist-build; zip $(JAR).zip $(JAR) start.sh
-	mv ./.dist-build/$(JAR).zip $(JAR)-$(VERSION).zip
-	rm -rf ./.dist-build
+.PHONY: build
+build:
+	mvn versions:set -DnewVersion=$(version) -DgenerateBackupPoms=false
+	mvn package -DskipTests=true
+	mv ./target/$(artifact_name).jar ./$(artifact_name).jar
 
-.PHONY: all build clean
+.PHONY: test
+test: test-unit
+
+.PHONY: test-unit
+test-unit: clean
+	mvn test
+
+.PHONY: package
+package:
+	$(eval tmpdir:=$(shell mktemp -d build-XXXXXXXXXX))
+	cp ./start.sh $(tmpdir)
+	cp ./$(artifact_name).jar $(tmpdir)
+	cd $(tmpdir); zip -r ../$(artifact_name)-$(version).zip *
+	rm -rf $(tmpdir)
+
+.PHONY: dist
+dist: clean build package

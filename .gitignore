@@ -1,0 +1,15 @@
+# Eclipse files
+/.settings/
+/.classpath
+/.project
+
+# IntelliJ files
+/.idea
+
+# Build artifacts
+*.zip
+*.jar
+/target/
+
+# Log files
+*.log
