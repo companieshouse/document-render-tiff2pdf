@@ -27,4 +27,4 @@ else
     source "${APP_DIR}/app_env"
 fi
 
-exec java -jar ./document-render-tiff2pdf.jar
+exec java {JAVA_MEM_ARGS} -jar ./document-render-tiff2pdf.jar
